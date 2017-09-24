@@ -14,6 +14,9 @@ function GameScreen() {
       
     var raycaster   = new THREE.Raycaster();
     
+    var targetPosition = new THREE.Vector3();
+    var targetDirection= new THREE.Vector3();
+    
     window.addEventListener('resize', function () 
     {
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -58,11 +61,34 @@ function GameScreen() {
 		if ( game.isKeyPressed(Keys.RIGHT) ){
 			cube.rotation.x += 0.1;
 		}
+        
+
+
+
+        
+        // Move to target position
+        if( cube.position.distanceTo( targetPosition ) > 0.01)
+        {        
+            targetDirection.copy( targetPosition );
+            targetDirection.sub( cube.position );
+            
+            targetDirection.normalize();
+            
+            cube.rotation.y = Math.atan(targetDirection.z / targetDirection.x)
+            
+            targetDirection.multiplyScalar(0.01);
+            
+     
+            cube.position.add( targetDirection );            
+        }
+        
 	}
 
     this.mouseUp = function(mouseX, mouseY) {
         
     }
+    
+    
     
     this.mouseDown = function(mouseX, mouseY) {
         var mouse = new THREE.Vector2(mouseX, mouseY);
@@ -73,10 +99,7 @@ function GameScreen() {
         var intersects = raycaster.intersectObjects( scene.children );
 
         for ( var i = 0; i < intersects.length; i++ ) {    
-            cube.position.x = intersects[ i ].point.x;
-            cube.position.y = intersects[ i ].point.y;
-            cube.position.z = intersects[ i ].point.z;
-            
+            targetPosition.copy( intersects[ i ].point );
         }
         
         
