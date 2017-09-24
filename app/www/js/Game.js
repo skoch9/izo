@@ -20,8 +20,7 @@ function Game() {
 			this.currentScreen.load(this);
 		}
 	}
-
-	/* Main loop invoked by setInterval callback */
+    
 	this.main = function() {
         
         if(this.currentScreen) {
@@ -36,8 +35,75 @@ function Game() {
 	}
 
 	this.init = function() {
+        // Global game instance 
+		gameInstance = this;
+        
 		this.changeScreen(this.gameScreen);
+        
+        // Register event callbacks
+        window.addEventListener('keydown',keyDownCallback,true);
+		window.addEventListener('keyup',keyUpCallback,true);
+		window.addEventListener('mousemove',mouseMoveCallback,true);
+		window.addEventListener('mousedown',mouseDownCallback,true);
+		window.addEventListener('mouseup',mouseUpCallback,true);
 	}	
 		
+	// Current key state
+	this.keyState  = new Array();    
+    
+    // Current mouse state
+    this.mouseX     = -1;
+    this.mouseY     = -1;
+    
+	this.updateMousePosition = function(state) {
+		this.mouseX     = state.clientX;
+        this.mouseY     = state.clientY;
+	}    
+    
+    /***********************************************
+     * Global event callbacks
+     ***********************************************/    
+
+	function mouseMoveCallback(state) {
+		gameInstance.updateMousePosition(state);
+	}
+
+	function mouseDownCallback(state) {
+        gameInstance.updateMousePosition(state);
+        
+		if(gameInstance.currentScreen.mouseDown) {
+			gameInstance.currentScreen.mouseDown(gameInstance.mouseX, gameInstance.mouseY);
+		}
+	}
+
+	function mouseUpCallback(state) {
+        gameInstance.updateMousePosition(state);
+        
+		if(gameInstance.currentScreen.mouseUp) {
+			gameInstance.currentScreen.mouseUp(gameInstance.mouseX, gameInstance.mouseY);
+		}
+	}	    
+   
+	/* Set down key */
+	function keyDownCallback(state){
+		if(gameInstance.currentScreen.keyDown) {
+			gameInstance.currentScreen.keyDown(state.keyCode);
+		}	
+	
+		gameInstance.keyState[state.keyCode] = true;
+	}
+
+	/* Reset down key */
+	function keyUpCallback(state){
+		if(gameInstance.currentScreen.keyUp) {
+			gameInstance.currentScreen.keyUp(state.keyCode);
+		}
+	
+		gameInstance.keyState[state.keyCode] = false;
+	}    
+    
 	this.init();
 }
+
+/* Global game instance */
+var gameInstance = null;

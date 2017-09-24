@@ -30,7 +30,7 @@ function GameScreen() {
 	this.draw = function(t) {
         renderer.render(scene, camera);
         
-        document.getElementById("hud").innerHTML = "t = " + t.toFixed(1) + " s";
+        //document.getElementById("hud").innerHTML = "t = " + t.toFixed(1) + " s";
 	}
 	
 
@@ -40,7 +40,13 @@ function GameScreen() {
         cube.rotation.y += 0.1;
 	}
 
-
+    this.mouseUp = function(mouseX, mouseY) {
+        
+    }
+    
+    this.mouseDown = function(mouseX, mouseY) {
+        
+    }
 }
 
 
