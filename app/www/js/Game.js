@@ -64,9 +64,12 @@ function Game() {
     this.mouseX     = -1;
     this.mouseY     = -1;
     
-	this.updateMousePosition = function(state) {
-		this.mouseX     = state.clientX;
-        this.mouseY     = state.clientY;
+	this.updateMousePosition = function(state) {        
+    	// calculate mouse position in normalized device coordinates
+        // (-1 to +1) for both components
+        this.mouseX =   ( event.pageX / window.innerWidth  ) * 2 - 1;
+        this.mouseY = - ( event.pageY / window.innerHeight ) * 2 + 1;
+
 	}    
     
     /***********************************************
