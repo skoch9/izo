@@ -25,10 +25,10 @@ function Game() {
         
         if(this.currentScreen) {
             // Update screen
-            this.currentScreen.update(this.time);
+            this.currentScreen.update(this);
 
             // Draw screen
-            this.currentScreen.draw(this.time);
+            this.currentScreen.draw(this);
         }
         
 		this.time += TimeStep;   
@@ -50,6 +50,15 @@ function Game() {
 		
 	// Current key state
 	this.keyState  = new Array();    
+    
+	/* Checks if given key is pressed */
+	this.isKeyPressed = function(key) {
+		if( key.Id in this.keyState && this.keyState[key.Id] ) {
+			return true;
+		} else {
+			return false;
+		}
+	}	    
     
     // Current mouse state
     this.mouseX     = -1;
