@@ -141,6 +141,10 @@ function GameScreen() {
             
             platy.rotation.y = Math.atan(targetDirection.z / targetDirection.x)
             
+            if(targetDirection.z < 0) {
+                platy.rotation.y += 3.14;
+            }
+            
             targetDirection.multiplyScalar(0.1);
             
      

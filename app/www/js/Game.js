@@ -4,7 +4,7 @@
 
 function Game() {
 
-	this.time = 0;
+	this.time = 0;     // [s]  Timestamp
 
 	/* Game screens */
 	this.gameScreen = new GameScreen;
@@ -21,7 +21,7 @@ function Game() {
 		}
 	}
     
-	this.main = function() {
+	this.main = function(time) {
         
         if(this.currentScreen) {
             // Update screen
@@ -31,7 +31,7 @@ function Game() {
             this.currentScreen.draw(this);
         }
         
-		this.time += TimeStep;   
+		this.time = time / 1000;   
 	}
 
 	this.init = function() {

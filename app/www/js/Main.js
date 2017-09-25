@@ -7,8 +7,8 @@ window.onload = main;
 var game = new Game;
 
 // Running the game loop
-function main() {
+function main(time) {
     requestAnimationFrame( main );
-    
-	game.main()
+
+    game.main(time)    
 }
