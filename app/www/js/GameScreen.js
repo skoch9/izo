@@ -40,9 +40,6 @@ function GameScreen() {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
 
-        // scene.fog = new THREE.FogExp2(0x000000, 0.035);
-        // Setup camera
-        // camera.position.z = 5;
 
         game.loader.load('assets/platy.json', function (geometry, materials) {
             platy = new THREE.Mesh(geometry, materials);
@@ -50,43 +47,14 @@ function GameScreen() {
             // var s = THREE.Math.randFloat(0.00075, 0.001);
             var s = 0.5;
             platy.scale.set(s, s, s);
-            //platy.rotation.y = THREE.Math.randFloat(-0.25, 0.25);
-            //platy.matrixAutoUpdate = false;
-
             scene.add(platy);
-
-
-        });
-        game.loader.load('assets/water.json', function (geometry, materials) {
-            water = new THREE.Mesh(geometry, materials);
-            // mesh.position.set(3, 3, 3);
-            scene.add(water);
         });
 
         game.loader.load('assets/test2.json', function (geometry, materials) {
-            // adjust color a bit
             surface = new THREE.Mesh(geometry, materials);
             surface.position.set(0, 0, 0);
             // console.log(geometry, materials)
             scene.add(surface);
-            // var material = materials[0];
-            // material.morphTargets = true;
-            // material.color.setHex(0xffaaaa);
-            // for (var i = 0; i < 1; i++) {
-            // random placement in a grid
-            // var x = ( ( i % 27 ) - 13.5 ) * 2 + THREE.Math.randFloatSpread(1);
-            // var z = ( Math.floor(i / 27) - 13.5 ) * 2 + THREE.Math.randFloatSpread(1);
-            // mesh.position.set(0, 0, 0);
-            // var s = THREE.Math.randFloat(0.00075, 0.001);
-            // mesh.scale.set(s, s, s);
-            // mesh.rotation.y = THREE.Math.randFloat(-0.25, 0.25);
-            // mesh.matrixAutoUpdate = false;
-            // mesh.updateMatrix();
-            // mixer.clipAction(geometry.animations[0], mesh)
-            //     .setDuration(1)			// one second
-            //     .startAt(-Math.random())	// random phase (already running)
-            //     .play();					// let's go
-            // }
         });
     };
 
@@ -96,15 +64,12 @@ function GameScreen() {
 
     this.draw = function (game) {
 
-        camera.position.x = Math.cos(game.time / 5) * 10;
-        camera.position.y = 8;
-        camera.position.z = Math.sin(game.time / 5) * 10;
-        pointLight.position.x = Math.sin(game.time) * 3;
-        pointLight.position.z = Math.cos(game.time) * 3;
-        water.position.y += THREE.Math.randFloat(-0.01, 0.01);
+        pointLight.position.x = Math.sin(game.time/10) * 1;
+        pointLight.position.z = Math.cos(game.time/10) * 1;
+        // water.position.y += THREE.Math.randFloat(-0.01, 0.01);
 
         mixer.update(game.time);
-        camera.lookAt(scene.position);
+        camera.lookAt(platy.position);
         renderer.render(scene, camera);
 
     };
@@ -112,10 +77,10 @@ function GameScreen() {
     this.update = function (game) {
 
         if (game.isKeyPressed(Keys.LEFT)) {
-            water.position.y -= 0.01;
+            // water.position.y -= 0.01;
         }
         if (game.isKeyPressed(Keys.RIGHT)) {
-            water.position.y += 0.01;
+            // water.position.y += 0.01;
         }
 
         // Move platy to target position        
